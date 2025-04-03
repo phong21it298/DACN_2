@@ -1,0 +1,25 @@
+{
+  "name": "k_project_05",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.ts --network",
+    "test": "hardhat test",
+    "verify": "hardhat verify --network"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.19"
+  },
+  "dependencies": {
+    "@types/react-router-dom": "^5.3.3",
+    "@zxing/library": "^0.21.3",
+    "react-qr-code": "^2.0.15",
+    "react-router-dom": "^7.4.1"
+  }
+}
