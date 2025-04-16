@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { BrowserMultiFormatReader } from "@zxing/library";
-import bgImg from '../images/bg_qr_scan.jpg';
-import { ethers } from 'ethers';
+import bgImg from "../images/bg_qr_scan.jpg";
+import { ethers } from "ethers";
 
-const QrScanner: React.FC<{ passData: (data: string) => void }> = ({ passData }) => {
+const QrScanner: React.FC<{ passData: (data: string) => void }> = ({
+  passData,
+}) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
 
@@ -26,7 +28,9 @@ const QrScanner: React.FC<{ passData: (data: string) => void }> = ({ passData })
       }
     };
 
+ phong_fix
     startScanner();
+
 
     return () => {
       codeReaderRef.current?.reset(); // Dừng và giải phóng camera
@@ -42,9 +46,11 @@ interface ScanProductProps {
 }
 
 export const ScanProduct: React.FC<ScanProductProps> = ({ signer, onBack }) => {
+
   const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
   const [qrData, setQrData] = useState<string>('');
   const [lastScanned, setLastScanned] = useState<string>('');
+
 
   const passData = useCallback((data: string) => {
     if (data !== lastScanned) {
