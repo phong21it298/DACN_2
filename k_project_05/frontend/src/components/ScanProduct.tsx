@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { BrowserMultiFormatReader } from "@zxing/library";
-import bgImg from '../images/bg_qr_scan.jpg';
-import { ethers } from 'ethers';
+import bgImg from "../images/bg_qr_scan.jpg";
+import { ethers } from "ethers";
 
-const QrScanner: React.FC<{ passData: (data: string) => void }> = ({ passData }) => {
+const QrScanner: React.FC<{ passData: (data: string) => void }> = ({
+  passData,
+}) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const codeReader = new BrowserMultiFormatReader();
 
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
       .then(() => {
         codeReader
           .decodeFromVideoDevice(null, videoRef.current!, (result, err) => {
@@ -35,9 +38,8 @@ interface ScanProductProps {
 }
 
 export const ScanProduct: React.FC<ScanProductProps> = ({ signer, onBack }) => {
-
-  const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-  const [qrData, setQrData] = useState<string>('');
+  const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const [qrData, setQrData] = useState<string>("");
 
   // Dùng useCallback để tránh re-render không cần thiết
   const passData = useCallback((data: string) => {
