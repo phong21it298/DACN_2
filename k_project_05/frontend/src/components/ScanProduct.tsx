@@ -5,26 +5,33 @@ import { ethers } from 'ethers';
 
 const QrScanner: React.FC<{ passData: (data: string) => void }> = ({ passData }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
 
   useEffect(() => {
     const codeReader = new BrowserMultiFormatReader();
+    codeReaderRef.current = codeReader;
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(() => {
-        codeReader
-          .decodeFromVideoDevice(null, videoRef.current!, (result, err) => {
-            if (result) {
-              passData(result.getText());
-            }
-          })
-          .catch((err) => console.error(err));
-      })
-      .catch((err) => console.error("Camera access denied: ", err));
+    const startScanner = async () => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ video: true });
+
+        codeReader.decodeFromVideoDevice(null, videoRef.current!, (result, err) => {
+          if (result) {
+            console.log("Scanned QR result: ", result);
+            passData(result.getText());
+          }
+        });
+      } catch (err) {
+        console.error("Camera access or video error: ", err);
+      }
+    };
+
+    startScanner();
 
     return () => {
-      codeReader.reset();
+      codeReaderRef.current?.reset(); // Dừng và giải phóng camera
     };
-  }, [passData]); // Thêm `passData` vào dependency array để tránh cảnh báo
+  }, [passData]);
 
   return <video ref={videoRef} style={{ width: "100%" }} />;
 };
@@ -35,34 +42,38 @@ interface ScanProductProps {
 }
 
 export const ScanProduct: React.FC<ScanProductProps> = ({ signer, onBack }) => {
-
   const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
   const [qrData, setQrData] = useState<string>('');
+  const [lastScanned, setLastScanned] = useState<string>('');
 
-  // Dùng useCallback để tránh re-render không cần thiết
   const passData = useCallback((data: string) => {
-    alert(`QR Code Scanned: ${data}`); // Hiển thị thông báo khi quét thành công
-    setQrData(data);
-  }, []);
+    if (data !== lastScanned) {
+      console.log("✅ Scanned QR Code:", data);
+      setQrData(data);
+      setLastScanned(data);
+      alert(`QR Code Scanned: ${data}`); // Bật lại nếu cần test
+    }
+  }, [lastScanned]);
 
   useEffect(() => {
+    if (!qrData) return;
+
     console.log("qrdata updated: ", qrData);
 
-    if (qrData) {
-      const arr = qrData.split(",");
-      const contractAddress = arr[0];
+    const [contractAddress] = qrData.split(",");
 
-      if (contractAddress === CONTRACT_ADDRESS) {
-        console.log("✅ Valid Contract Address!");
-        // Xử lý dữ liệu quét thành công
-      }
+    if (contractAddress === CONTRACT_ADDRESS) {
+      console.log("✅ Valid Contract Address!");
+      // Xử lý dữ liệu quét thành công
+    } else {
+      console.warn("❌ Invalid Contract Address!");
     }
   }, [qrData]);
 
   return (
     <div
       style={{
-        backgroundImage: `url(${bgImg})`, // Sửa lỗi không hiển thị ảnh nền
+        backgroundImage: `url(${bgImg})`,
         minHeight: "80vh",
         backgroundRepeat: "no-repeat",
         position: "absolute",
