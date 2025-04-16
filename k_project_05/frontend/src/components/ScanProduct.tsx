@@ -17,20 +17,35 @@ const QrScanner: React.FC<{ passData: (data: string) => void }> = ({
       try {
         await navigator.mediaDevices.getUserMedia({ video: true });
 
-        codeReader.decodeFromVideoDevice(null, videoRef.current!, (result, err) => {
-          if (result) {
-            console.log("Scanned QR result: ", result);
-            passData(result.getText());
+        codeReader.decodeFromVideoDevice(
+          null,
+          videoRef.current!,
+          (result, err) => {
+            if (result) {
+              console.log("Scanned QR result: ", result);
+              passData(result.getText());
+            }
           }
-        });
+        );
       } catch (err) {
         console.error("Camera access or video error: ", err);
       }
     };
 
- phong_fix
     startScanner();
 
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then(() => {
+        codeReader
+          .decodeFromVideoDevice(null, videoRef.current!, (result, err) => {
+            if (result) {
+              passData(result.getText());
+            }
+          })
+          .catch((err) => console.error(err));
+      })
+      .catch((err) => console.error("Camera access denied: ", err));
 
     return () => {
       codeReaderRef.current?.reset(); // Dừng và giải phóng camera
@@ -46,20 +61,21 @@ interface ScanProductProps {
 }
 
 export const ScanProduct: React.FC<ScanProductProps> = ({ signer, onBack }) => {
+  const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const [qrData, setQrData] = useState<string>("");
+  const [lastScanned, setLastScanned] = useState<string>("");
 
-  const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-  const [qrData, setQrData] = useState<string>('');
-  const [lastScanned, setLastScanned] = useState<string>('');
-
-
-  const passData = useCallback((data: string) => {
-    if (data !== lastScanned) {
-      console.log("✅ Scanned QR Code:", data);
-      setQrData(data);
-      setLastScanned(data);
-      alert(`QR Code Scanned: ${data}`); // Bật lại nếu cần test
-    }
-  }, [lastScanned]);
+  const passData = useCallback(
+    (data: string) => {
+      if (data !== lastScanned) {
+        console.log("✅ Scanned QR Code:", data);
+        setQrData(data);
+        setLastScanned(data);
+        alert(`QR Code Scanned: ${data}`); // Bật lại nếu cần test
+      }
+    },
+    [lastScanned]
+  );
 
   useEffect(() => {
     if (!qrData) return;
