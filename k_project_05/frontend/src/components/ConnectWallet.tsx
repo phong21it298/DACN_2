@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import { NetworkErrorMessage } from "./NetworkErrorMessage";
+import "../css/ConnectWallet.css";
 
 const HARDHAT_NETWORK_ID = "31337";
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
@@ -15,7 +16,9 @@ interface ConnectWalletProps {
   onConnected: (signer: ethers.Signer, selectedAddress: string) => void;
 }
 
-export const ConnectWallet: React.FC<ConnectWalletProps> = ({ onConnected }) => {
+export const ConnectWallet: React.FC<ConnectWalletProps> = ({
+  onConnected,
+}) => {
   const [networkError, setNetworkError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -34,7 +37,9 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({ onConnected }) => 
 
       if (!permissions) return;
 
-      const selectedAddresses = (await window.ethereum.request({ method: "eth_requestAccounts" })) as string[];
+      const selectedAddresses = (await window.ethereum.request({
+        method: "eth_requestAccounts",
+      })) as string[];
       if (selectedAddresses.length === 0) return;
 
       console.log("User selected:", selectedAddresses);
@@ -54,7 +59,6 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({ onConnected }) => 
         }
         onConnected(signer, newAddresses[0]);
       });
-
     } catch (error) {
       console.error("Error connecting wallet:", error);
       setNetworkError("Lỗi khi kết nối ví.");
@@ -87,12 +91,24 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({ onConnected }) => 
   };
 
   return (
-    <div className="container text-center">
-      {networkError && <NetworkErrorMessage message={networkError} dismiss={() => setNetworkError(null)} />}
-      <p>Please connect to your wallet.</p>
-      <button className="btn btn-warning" type="button" onClick={connectWallet} disabled={loading}>
-        {loading ? "Connecting..." : "Connect Wallet"}
-      </button>
+    <div className="container">
+      <div className="glass-card">
+        {networkError && (
+          <NetworkErrorMessage
+            message={networkError}
+            dismiss={() => setNetworkError(null)}
+          />
+        )}
+        <p>Please connect to your wallet.</p>
+        <button
+          className="btn btn-warning"
+          type="button"
+          onClick={connectWallet}
+          disabled={loading}
+        >
+          {loading ? "Connecting..." : "Connect Wallet"}
+        </button>
+      </div>
     </div>
   );
 };
