@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
+import "../css/ConnectWalletPage.css";
 
 interface SwitchAccountProps {
   onAccountSwitched: (signer: ethers.Signer, address: string) => void;
 }
 
-export const SwitchAccount: React.FC<SwitchAccountProps> = ({ onAccountSwitched }) => {
+export const SwitchAccount: React.FC<SwitchAccountProps> = ({
+  onAccountSwitched,
+}) => {
   const [loading, setLoading] = useState(false);
 
   const switchAccount = async () => {
@@ -22,7 +25,9 @@ export const SwitchAccount: React.FC<SwitchAccountProps> = ({ onAccountSwitched 
       if (!permissions) return;
 
       // Yêu cầu MetaMask mở hộp thoại chọn tài khoản
-      const selectedAddresses = (await window.ethereum.request({ method: "eth_requestAccounts" })) as string[];
+      const selectedAddresses = (await window.ethereum.request({
+        method: "eth_requestAccounts",
+      })) as string[];
       if (selectedAddresses.length === 0) return;
 
       const newAddress = selectedAddresses[0];
@@ -38,7 +43,11 @@ export const SwitchAccount: React.FC<SwitchAccountProps> = ({ onAccountSwitched 
   };
 
   return (
-    <button className="btn btn-sm btn-secondary ms-2" onClick={switchAccount} disabled={loading}>
+    <button
+      className="switch-account-button"
+      onClick={switchAccount}
+      disabled={loading}
+    >
       {loading ? "Switching..." : "Switch Account"}
     </button>
   );

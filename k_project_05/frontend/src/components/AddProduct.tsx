@@ -293,7 +293,7 @@ export const AddProduct: React.FC<AddProductProps> = ({ signer }) => {
 
   return (
     <div className="add-product-container">
-      <h2>Add New Product</h2>
+      <h2 className="add-product-title">Add New Product</h2>
       <button className="back-button" onClick={() => navigate(-1)}>
         Quay lại
       </button>
