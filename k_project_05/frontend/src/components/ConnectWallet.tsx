@@ -106,7 +106,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
           onClick={connectWallet}
           disabled={loading}
         >
-          {loading ? "Connecting..." : "Connect Wallet"}
+          {loading ? "Connecting..." : "MetaMask"}
         </button>
       </div>
     </div>
