@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProductList, Product } from "../components/ProductList";
 import "../css/ProductListPage.css";
@@ -7,10 +7,12 @@ const ProductListPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
 
+  const handleProductsFetched = useCallback((fetchedProducts: Product[]) => {
+    setProducts(fetchedProducts);
+  }, []);
+
   const { error } = useProductList({
-    onProductsFetched: (fetchedProducts: Product[]) => {
-      setProducts(fetchedProducts);
-    },
+    onProductsFetched: handleProductsFetched,
   });
 
   return (

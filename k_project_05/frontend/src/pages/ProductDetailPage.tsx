@@ -1,18 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
+import "../css/ProductDetailPage.css";
 
-export interface Product {
-  id: number;
-  name: string;
-  origin: string;
-  productionDate: string;
-  farmingProcess: string;
-  transportation: string;
-  storageInfo: string;
-  salesInfo: string;
-}
-
-const FoodTraceabilityABI = [
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const contractABI = [
     {
       "anonymous": false,
       "inputs": [
@@ -238,81 +230,92 @@ const FoodTraceabilityABI = [
     }
   ];
 
-interface ProductListProps {
-  onProductsFetched: (products: Product[]) => void;
-}
-
-export const useProductList = ({ onProductsFetched }: ProductListProps) => {
+const ProductDetailPage: React.FC = () => {
+  const { productId } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Thay bằng địa chỉ từ checkContract.ts
-  const provider = ethers.getDefaultProvider("http://localhost:8545");
-  const contract = new ethers.Contract(
-    contractAddress,
-    FoodTraceabilityABI,
-    provider
-  );
-
-  const callbackRef = useRef(onProductsFetched);
   useEffect(() => {
-    callbackRef.current = onProductsFetched;
-  }, [onProductsFetched]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProduct = async () => {
       try {
-        console.log("Calling getProductIds on contract:", contractAddress);
-        const ids = await contract.getProductIds();
-        // Xử lý BigInt
-        const productIds = ids.map((id: any) => Number(id));
-        console.log("Product IDs:", productIds);
-        const productList: Product[] = [];
+        const provider = ethers.getDefaultProvider("http://localhost:8545");
+        const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        
+        const id = parseInt(productId ?? "", 10);
 
-        if (productIds.length === 0) {
-          console.log("No products found.");
-          callbackRef.current(productList);
-          return;
-        }
+        console.log("Đang lấy sản phẩm ID:", id);
+        const data = await contract.getProduct(id);
+        console.log("Dữ liệu:", data);
 
-        for (const id of productIds) {
-          console.log(`Fetching product ${id}...`);
-          const [
-            name,
-            origin,
-            productionDate,
-            farmingProcess,
-            transportation,
-            storageInfo,
-            salesInfo,
-          ] = await contract.getProduct(id);
-          productList.push({
-            id,
-            name,
-            origin,
-            productionDate,
-            farmingProcess,
-            transportation,
-            storageInfo,
-            salesInfo,
-          });
-        }
-
-        console.log("Products fetched:", productList);
-        callbackRef.current(productList);
+        setProduct({
+          id,
+          name: data[0],
+          origin: data[1],
+          productionDate: data[2],
+          farmingProcess: data[3],
+          transportation: data[4],
+          storageInfo: data[5],
+          salesInfo: data[6],
+        });
       } catch (err: any) {
-        console.error("Error fetching products:", err);
-        let errorMsg = "Không thể tải danh sách sản phẩm.";
-        if (err.code === "CALL_EXCEPTION") {
-          errorMsg += ` Lý do: ${err.reason || "Không xác định"}`;
-        } else {
-          errorMsg += ` Lý do: ${err.message}`;
-        }
-        setError(errorMsg);
+        setError("Không tìm thấy sản phẩm.");
       }
     };
 
-    fetchProducts();
-  }, []);
+    fetchProduct();
+  }, [productId]);
 
-  return { error };
+  if (error) return <div>{error}</div>;
+  if (!product) return <div>Đang tải...</div>;
+
+  return (
+    <div className="product-detail-container">
+      <div className="product-detail-card">
+        <div className="header-row">
+          <button className="back-button" onClick={() => navigate(-1)}>
+            Quay lại
+          </button>
+          <div className="title-container">
+            <h2>Thông tin sản phẩm #{product.id}</h2>
+          </div>
+        </div>
+
+        <table className="product-detail-table">
+          <tbody>
+            <tr>
+              <th>Tên</th>
+              <td>{product.name}</td>
+            </tr>
+            <tr>
+              <th>Xuất xứ</th>
+              <td>{product.origin}</td>
+            </tr>
+            <tr>
+              <th>Ngày sản xuất</th>
+              <td>{product.productionDate}</td>
+            </tr>
+            <tr>
+              <th>Quy trình</th>
+              <td>{product.farmingProcess}</td>
+            </tr>
+            <tr>
+              <th>Vận chuyển</th>
+              <td>{product.transportation}</td>
+            </tr>
+            <tr>
+              <th>Bảo quản</th>
+              <td>{product.storageInfo}</td>
+            </tr>
+            <tr>
+              <th>Phân phối</th>
+              <td>{product.salesInfo}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
+
+export default ProductDetailPage;
