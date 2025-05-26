@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "D:\\__Hoc Tap\\Nam_4\\Ki_2\\Do_an\\k_project_05\\contracts\\FoodTraceability.sol": {
-      "lastModificationDate": 1743489546924,
-      "contentHash": "67c97ec0a7d2b9cade1a7a43661ed7ae",
+    "D:\\study\\Do_An\\blockchain\\DACN_2\\k_project_05\\contracts\\FoodTraceability.sol": {
+      "lastModificationDate": 1748187255107,
+      "contentHash": "d9cfcbb005190439b8d5cfd6cefe9ba1",
       "sourceName": "contracts/FoodTraceability.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -39,8 +39,8 @@
         "FoodTraceability"
       ]
     },
-    "D:\\__Hoc Tap\\Nam_4\\Ki_2\\Do_an\\k_project_05\\node_modules\\hardhat\\console.sol": {
-      "lastModificationDate": 1743488530077,
+    "D:\\study\\Do_An\\blockchain\\DACN_2\\k_project_05\\node_modules\\hardhat\\console.sol": {
+      "lastModificationDate": 1743932181751,
       "contentHash": "681c532e816169606d13a5fe8b475074",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {

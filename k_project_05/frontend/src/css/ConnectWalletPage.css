@@ -20,11 +20,22 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   max-width: 500px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .wallet-info p {
   font-size: 1.2rem;
   margin-bottom: 20px;
+}
+
+/* Container cho hai nút trên cùng hàng */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Khoảng cách giữa Add và Switch */
+  margin-bottom: 15px; /* Khoảng cách với nút View */
 }
 
 .add-product-button {
@@ -35,30 +46,48 @@
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-product-button:hover {
   background-color: #388e3c;
+  transform: translateY(-2px); /* Hiệu ứng nâng */
 }
 
 .switch-account-button {
   background-color: #2196f3;
   color: white;
   border: none;
-  padding: 12px 19px;
+  padding: 12px 19px; /* Đồng bộ padding với add-product */
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-right: 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .switch-account-button:hover {
   background-color: #1976d2;
+  transform: translateY(-2px); /* Hiệu ứng nâng */
 }
 
 .switch-account-button:disabled {
   background-color: #90caf9;
   cursor: not-allowed;
+  transform: none; /* Không nâng khi disabled */
+}
+
+.view-products-button {
+  background-color: #ff9800; /* Màu cam để phân biệt */
+  color: white;
+  border: none;
+  padding: 12px 24px; /* Đồng bộ padding */
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.view-products-button:hover {
+  background-color: #f57c00; /* Cam đậm khi hover */
+  transform: translateY(-2px); /* Hiệu ứng nâng */
 }

@@ -24,7 +24,13 @@ import type {
 
 export interface FoodTraceabilityInterface extends Interface {
   getFunction(
-    nameOrSignature: "addProduct" | "getProduct" | "productCount" | "products"
+    nameOrSignature:
+      | "addProduct"
+      | "getProduct"
+      | "getProductIds"
+      | "productCount"
+      | "productIds"
+      | "products"
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "ProductAdded"): EventFragment;
@@ -38,8 +44,16 @@ export interface FoodTraceabilityInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "getProductIds",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "productCount",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "productIds",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "products",
@@ -49,9 +63,14 @@ export interface FoodTraceabilityInterface extends Interface {
   decodeFunctionResult(functionFragment: "addProduct", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getProduct", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "getProductIds",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "productCount",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "productIds", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "products", data: BytesLike): Result;
 }
 
@@ -143,7 +162,11 @@ export interface FoodTraceability extends BaseContract {
     "view"
   >;
 
+  getProductIds: TypedContractMethod<[], [bigint[]], "view">;
+
   productCount: TypedContractMethod<[], [bigint], "view">;
+
+  productIds: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
   products: TypedContractMethod<
     [arg0: BigNumberish],
@@ -188,8 +211,14 @@ export interface FoodTraceability extends BaseContract {
     "view"
   >;
   getFunction(
+    nameOrSignature: "getProductIds"
+  ): TypedContractMethod<[], [bigint[]], "view">;
+  getFunction(
     nameOrSignature: "productCount"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "productIds"
+  ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "products"
   ): TypedContractMethod<

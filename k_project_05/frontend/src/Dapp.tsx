@@ -4,6 +4,7 @@ import ConnectWalletPage from "./pages/ConnectWalletPage";
 import AddProductPage from "./pages/AddProductPage";
 import ScanProductPage from "./pages/ScanProductPage";
 import { WalletProvider } from "./context/WalletContext";
+import ProductListPage from "./pages/ProductListPage";
 
 export const Dapp = () => {
   return (
@@ -13,6 +14,7 @@ export const Dapp = () => {
         <Route path="/connect-wallet" element={<ConnectWalletPage />} />
         <Route path="/add-product" element={<AddProductPage />} />
         <Route path="/scan-product" element={<ScanProductPage />} />
+        <Route path="/products" element={<ProductListPage />} />
       </Routes>
     </WalletProvider>
   );

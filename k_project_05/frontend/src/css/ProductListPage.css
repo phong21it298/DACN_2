@@ -1,0 +1,111 @@
+.product-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #ffffff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+.product-list-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-row .back-button {
+  align-self: flex-start; /* Nút ở trái */
+}
+
+.header-row .title-container {
+  flex-grow: 1; /* Chiếm không gian còn lại */
+  display: flex;
+  justify-content: center; /* Căn giữa tiêu đề */
+  padding-right: 85px;
+}
+
+.header-row h2 {
+  font-size: 2rem;
+  color: #f0f0f0;
+  margin: 0;
+}
+
+.error-message {
+  color: #ff5252;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.no-products {
+  font-size: 1.2rem;
+  color: #b0bec5;
+  text-align: center;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-table th,
+.product-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.product-table th {
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.product-table td {
+  color: #b0bec5;
+}
+
+.product-table tr:last-child td {
+  border-bottom: none;
+}
+
+.product-table tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.back-button {
+  background-color: #607d8b;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #455a64;
+  transform: translateY(-2px);
+}

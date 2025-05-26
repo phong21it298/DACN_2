@@ -1,8 +1,18 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-const contractABI = [
+export interface Product {
+  id: number;
+  name: string;
+  origin: string;
+  productionDate: string;
+  farmingProcess: string;
+  transportation: string;
+  storageInfo: string;
+  salesInfo: string;
+}
+
+const FoodTraceabilityABI = [
   {
     anonymous: false,
     inputs: [
@@ -228,125 +238,76 @@ const contractABI = [
   },
 ];
 
-interface AddProductProps {
-  signer: ethers.Signer | null;
+interface ProductListProps {
+  onProductsFetched: (products: Product[]) => void;
 }
 
-interface AddProductReturn {
-  formData: {
-    name: string;
-    origin: string;
-    productionDate: string;
-    farmingProcess: string;
-    transportation: string;
-    storageInfo: string;
-    salesInfo: string;
-  };
-  productId: number | null;
-  loading: boolean;
-  qrRef: React.RefObject<HTMLDivElement | null>; // Sửa type
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  addProduct: () => Promise<void>;
-  downloadQRCode: () => void;
-}
+export const useProductList = ({ onProductsFetched }: ProductListProps) => {
+  const [error, setError] = useState<string | null>(null);
 
-export const useAddProduct = ({
-  signer,
-}: AddProductProps): AddProductReturn => {
-  const [formData, setFormData] = useState({
-    name: "",
-    origin: "",
-    productionDate: "",
-    farmingProcess: "",
-    transportation: "",
-    storageInfo: "",
-    salesInfo: "",
-  });
-  const [productId, setProductId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const qrRef = useRef<HTMLDivElement | null>(null);
+  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Thay bằng địa chỉ từ checkContract.ts
+  const provider = ethers.getDefaultProvider("http://localhost:8545");
+  const contract = new ethers.Contract(
+    contractAddress,
+    FoodTraceabilityABI,
+    provider
+  );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        console.log("Calling getProductIds on contract:", contractAddress);
+        const ids = await contract.getProductIds();
+        // Xử lý BigInt
+        const productIds = ids.map((id: any) => Number(id));
+        console.log("Product IDs:", productIds);
+        const productList: Product[] = [];
 
-  const addProduct = async () => {
-    if (!signer) {
-      alert("Vui lòng kết nối ví trước!");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const contract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer
-      );
-      const tx = await contract.addProduct(
-        formData.name,
-        formData.origin,
-        formData.productionDate,
-        formData.farmingProcess,
-        formData.transportation,
-        formData.storageInfo,
-        formData.salesInfo
-      );
-      const receipt = await tx.wait();
-
-      const event = receipt.logs.find((log: any) => {
-        try {
-          return contract.interface.parseLog(log)?.name === "ProductAdded";
-        } catch {
-          return false;
+        if (productIds.length === 0) {
+          console.log("No products found.");
+          onProductsFetched(productList);
+          return;
         }
-      });
 
-      if (event?.args?.productId) {
-        const newProductId = Number(event.args.productId);
-        setProductId(newProductId);
-        alert(`Sản phẩm đã được thêm với ID: ${newProductId}`);
-      } else {
-        alert("Không lấy được productId từ event!");
+        for (const id of productIds) {
+          console.log(`Fetching product ${id}...`);
+          const [
+            name,
+            origin,
+            productionDate,
+            farmingProcess,
+            transportation,
+            storageInfo,
+            salesInfo,
+          ] = await contract.getProduct(id);
+          productList.push({
+            id,
+            name,
+            origin,
+            productionDate,
+            farmingProcess,
+            transportation,
+            storageInfo,
+            salesInfo,
+          });
+        }
+
+        console.log("Products fetched:", productList);
+        onProductsFetched(productList);
+      } catch (err: any) {
+        console.error("Error fetching products:", err);
+        let errorMsg = "Không thể tải danh sách sản phẩm.";
+        if (err.code === "CALL_EXCEPTION") {
+          errorMsg += ` Lý do: ${err.reason || "Không xác định"}`;
+        } else {
+          errorMsg += ` Lý do: ${err.message}`;
+        }
+        setError(errorMsg);
       }
-    } catch (error) {
-      console.error("Lỗi:", error);
-      alert("Thêm sản phẩm thất bại!");
-    }
-    setLoading(false);
-  };
-
-  const downloadQRCode = () => {
-    if (!qrRef.current) return;
-
-    const svg = qrRef.current.querySelector("svg");
-    if (!svg) return;
-
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const img = new Image();
-    img.src = "data:image/svg+xml;base64," + btoa(svgData);
-    img.onload = () => {
-      canvas.width = 256;
-      canvas.height = 256;
-      ctx?.drawImage(img, 0, 0);
-
-      const a = document.createElement("a");
-      a.href = canvas.toDataURL("image/png");
-      a.download = `product_${productId}.png`;
-      a.click();
     };
-  };
 
-  return {
-    formData,
-    productId,
-    loading,
-    qrRef,
-    handleChange,
-    addProduct,
-    downloadQRCode,
-  };
+    fetchProducts();
+  }, [onProductsFetched]);
+
+  return { error };
 };
