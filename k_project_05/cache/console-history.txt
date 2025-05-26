@@ -1,0 +1,9 @@
+console.log("Product 1:", product);
+const product = await contract.getProduct(1);
+console.log("Product IDs:", productIds);
+const product = await contract.getProduct(1);
+const prconsole.log("Product 1:", product);
+console.log("Product IDs:", productIds);
+const productIds = await contract.getProductIds();
+const contract = await ethers.getContractAt("FoodTraceability", "0x5FbDB2315678afecb367f032d93F642f64180aa3"); const productIds = await contract.getPronsole.log("Product 1:", product);
+const contract = await ethers.getContractAt("FoodTraceability", "0x5FbDB2315678afecb367f032d93F642f64180aa3");

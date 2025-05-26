@@ -17,6 +17,8 @@ contract FoodTraceability {
 
     mapping(uint256 => Product) public products;
     uint256 public productCount;
+    uint256[] public productIds; // Mảng lưu tất cả productId
+
 
     event ProductAdded(uint256 indexed productId, string name, string origin, string productionDate);
 
@@ -29,32 +31,33 @@ contract FoodTraceability {
         string memory _storageInfo,
         string memory _salesInfo
     ) public returns (uint256) {
-
         console.log("Bat dau them san pham:", _name, _origin, _productionDate);
 
         productCount++;
-
         console.log("San pham ID:", productCount);
 
         products[productCount] = Product(
             _name, _origin, _productionDate, _farmingProcess, _transportation, _storageInfo, _salesInfo
         );
 
-        emit ProductAdded(productCount, _name, _origin, _productionDate);
+        productIds.push(productCount); // Thêm ID vào productIds
 
-        console.log("Da tham san pham thanh cong!");
+        emit ProductAdded(productCount, _name, _origin, _productionDate);
+        console.log("Da them san pham thanh cong!");
 
         return productCount;
     }
 
     function getProduct(uint256 _productId) public view returns (
-        string memory, string memory, string memory, string memory, 
+        string memory, string memory, string memory, string memory,
         string memory, string memory, string memory
     ) {
-
         Product memory p = products[_productId];
-
-        return (p.name, p.origin, p.productionDate, p.farmingProcess, 
+        return (p.name, p.origin, p.productionDate, p.farmingProcess,
                 p.transportation, p.storageInfo, p.salesInfo);
+    }
+
+    function getProductIds() public view returns (uint256[] memory) {
+        return productIds;
     }
 }
