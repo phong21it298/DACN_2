@@ -2,7 +2,7 @@ import { useWallet } from "../context/WalletContext";
 import { useNavigate } from "react-router-dom";
 import { ConnectWallet } from "../components/ConnectWallet";
 import { SwitchAccount } from "../components/SwitchAccount";
-import "../css/ConnectWalletPage.css";
+import "../css/ConnectWallet.css";
 
 const ConnectWalletPage = () => {
   const { selectedAddress, setSigner, setSelectedAddress } = useWallet();
@@ -22,17 +22,25 @@ const ConnectWalletPage = () => {
           <p>
             Connected Wallet: <b>{selectedAddress}</b>
           </p>
-          <SwitchAccount
-            onAccountSwitched={(newSigner, address) => {
-              setSigner(newSigner);
-              setSelectedAddress(address);
-            }}
-          />
+          <div className="button-group">
+            <SwitchAccount
+              onAccountSwitched={(newSigner, newAddress) => {
+                setSigner(newSigner);
+                setSelectedAddress(newAddress);
+              }}
+            />
+            <button
+              className="add-product-button"
+              onClick={() => navigate("/add-product")}
+            >
+              Add Product
+            </button>
+          </div>
           <button
-            className="add-product-button"
-            onClick={() => navigate("/add-product")}
+            className="view-products-button"
+            onClick={() => navigate("/products")}
           >
-            Add Product
+            View Product List
           </button>
         </div>
       )}
