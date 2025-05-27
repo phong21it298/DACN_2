@@ -1,16 +1,27 @@
 .product-detail-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #ffffff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
 }
 
 .product-detail-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 500px;
-  padding: 20px 30px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .header-row {
@@ -19,51 +30,166 @@
   margin-bottom: 20px;
 }
 
-.back-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
+.header-row .back-button {
+  align-self: flex-start;
 }
 
-.back-button:hover {
-  background-color: #0056b3;
-}
-
-.title-container {
+.header-row .title-container {
   flex-grow: 1;
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
-.title-container h2 {
+.header-row h2 {
+  font-size: 2rem;
+  color: #f0f0f0;
   margin: 0;
-  font-size: 1.5rem;
-  color: #333;
 }
 
 .product-detail-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .product-detail-table th,
 .product-detail-table td {
   padding: 12px 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   text-align: left;
 }
 
 .product-detail-table th {
   width: 130px;
-  color: #555;
+  color: #e0e0e0;
   font-weight: 600;
-  background-color: #f9f9f9;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .product-detail-table td {
-  color: #333;
+  color: #b0bec5;
+}
+
+.product-detail-table tr:last-child th,
+.product-detail-table tr:last-child td {
+  border-bottom: none;
+}
+
+.product-detail-table tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.back-button {
+  background-color: #607d8b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #455a64;
+  transform: translateY(-2px);
+}
+
+.error-message {
+  color: #ff5252;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.loading-message {
+  color: #b0bec5;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Responsive cho điện thoại */
+@media (max-width: 768px) {
+  .product-detail-container {
+    padding: 10px;
+  }
+
+  .product-detail-card {
+    padding: 20px;
+    max-width: 100%;
+    margin: 0 10px;
+  }
+
+  .header-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-row .title-container {
+    flex-grow: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .header-row h2 {
+    font-size: 1.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .back-button {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .product-detail-table {
+    display: block; /* Cho phép cuộn ngang */
+    overflow-x: auto; /* Cuộn ngang nếu tràn */
+    -webkit-overflow-scrolling: touch; /* Cuộn mượt trên iOS */
+    width: 100%;
+  }
+
+  .product-detail-table th,
+  .product-detail-table td {
+    padding: 14px 12px;
+    font-size: 1rem;
+  }
+
+  .product-detail-table th {
+    min-width: 140px;
+  }
+
+  .error-message,
+  .loading-message {
+    font-size: 1rem;
+  }
+}
+
+/* Màn hình rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .header-row h2 {
+    font-size: 1.1rem;
+  }
+
+  .back-button {
+    padding: 5px 10px;
+    font-size: 1rem;
+  }
+
+  .product-detail-table th,
+  .product-detail-table td {
+    padding: 12px 10px;
+    font-size: 1.1rem;
+  }
+
+  .product-detail-table th {
+    width: 120px;
+  }
 }

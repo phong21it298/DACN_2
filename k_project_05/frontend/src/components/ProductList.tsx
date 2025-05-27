@@ -246,7 +246,7 @@ export const useProductList = ({ onProductsFetched }: ProductListProps) => {
   const [error, setError] = useState<string | null>(null);
 
   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Thay bằng địa chỉ từ checkContract.ts
-  const provider = ethers.getDefaultProvider("http://192.168.1.8:8545");
+  const provider = ethers.getDefaultProvider("http://192.168.1.2:8545");
   const contract = new ethers.Contract(
     contractAddress,
     FoodTraceabilityABI,

@@ -5,230 +5,230 @@ import "../css/ProductDetailPage.css";
 
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const contractABI = [
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "uint256",
-          "name": "productId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "origin",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "productionDate",
-          "type": "string"
-        }
-      ],
-      "name": "ProductAdded",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_origin",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_productionDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_farmingProcess",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_transportation",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_storageInfo",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_salesInfo",
-          "type": "string"
-        }
-      ],
-      "name": "addProduct",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_productId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getProduct",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getProductIds",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "productCount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "productIds",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "products",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "origin",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "productionDate",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "farmingProcess",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "transportation",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "storageInfo",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "salesInfo",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ];
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "productId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "origin",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "productionDate",
+        type: "string",
+      },
+    ],
+    name: "ProductAdded",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_origin",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_productionDate",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_farmingProcess",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_transportation",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_storageInfo",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_salesInfo",
+        type: "string",
+      },
+    ],
+    name: "addProduct",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_productId",
+        type: "uint256",
+      },
+    ],
+    name: "getProduct",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getProductIds",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "productCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "productIds",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "products",
+    outputs: [
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "origin",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "productionDate",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "farmingProcess",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "transportation",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "storageInfo",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "salesInfo",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 const ProductDetailPage: React.FC = () => {
   const { productId } = useParams();
@@ -239,9 +239,9 @@ const ProductDetailPage: React.FC = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const provider = new JsonRpcProvider("http://192.168.1.8:8545");
+        const provider = new JsonRpcProvider("http://192.168.1.2:8545");
         const contract = new Contract(contractAddress, contractABI, provider);
-        
+
         const id = parseInt(productId ?? "", 10);
 
         console.log("Đang lấy sản phẩm ID:", id);
