@@ -92,7 +92,7 @@ const AddProductPage: React.FC = () => {
             <h3>Mã QR sản phẩm</h3>
             <div ref={qrRef}>
               <QRCode
-                value={`http://localhost:3000/product/${productId}`}
+                value={`http://192.168.1.8:3000/product/${productId}`}
                 size={256}
               />
             </div>

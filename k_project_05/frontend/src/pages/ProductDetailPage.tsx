@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ethers } from "ethers";
+import { Contract, JsonRpcProvider } from "ethers";
 import "../css/ProductDetailPage.css";
 
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
@@ -239,8 +239,8 @@ const ProductDetailPage: React.FC = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const provider = ethers.getDefaultProvider("http://localhost:8545");
-        const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        const provider = new JsonRpcProvider("http://192.168.1.8:8545");
+        const contract = new Contract(contractAddress, contractABI, provider);
         
         const id = parseInt(productId ?? "", 10);
 
